@@ -13,3 +13,8 @@ script:
   - make dep && make test
 
 after_success:
+  - make build
+  - docker build -t dnilosek/fib-overkill-web -f api/dockerfile .
+  - docker build -t dnilosek/fib-overkill-worker -f worker/dockerfile .
+  - docker build -t dnilosek/fib-overkill-web ./web
+  - docker build -t dnilosek/fib-overkill-nginx ./nginx
