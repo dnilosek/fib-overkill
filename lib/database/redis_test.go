@@ -15,8 +15,7 @@ func TestOpen(t *testing.T) {
 		panic(err)
 	}
 
-	redisUrl := "redis://" + mr.Addr()
-	db, err := database.OpenRedis(redisUrl)
+	db, err := database.OpenRedis(mr.Addr())
 	assert.Nil(t, err)
 	assert.NotNil(t, db)
 
