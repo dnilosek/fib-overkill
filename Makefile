@@ -55,14 +55,7 @@ $(APIBIN): $(APIPATH)/fib-api.go
 clean:
 	@rm -rf $(BINPATH)
 
-images:  api-image worker-image
+compose: build
+	 docker-compose build
 
-api-image: $(APIBIN)
-	docker build -t fib-api-$(DOCKER_TAG) -f api/dockerfile .
-
-worker-image: $(WORKERBIN)
-	docker build -t worker-$(DOCKER_TAG) -f worker/dockerfile .
-
-web-image-dev: 
-	docker build -t web-$(DOCKER_TAG) -f build/docker/dockerfile.web.dev .
-.PHONY: dep test vet cover run-worker run-api build clean images
+.PHONY: dep test vet cover run-worker run-api build clean compose

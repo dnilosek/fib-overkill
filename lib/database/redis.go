@@ -37,14 +37,14 @@ func (db *RedisDB) Get(key string) (string, error) {
 }
 
 // Open connection to redis db
-func OpenRedis(databaseConnection string) (*RedisDB, error) {
-	var db RedisDB
-	options, err := redis.ParseURL(databaseConnection)
-	if err != nil {
-		return nil, err
+func OpenRedis(databaseAddr string) (*RedisDB, error) {
+	client := redis.NewClient(&redis.Options{
+		Addr:     databaseAddr,
+		Password: "", // no password set
+		DB:       0,  // use default DB
+	})
+	db := RedisDB{
+		Client: client,
 	}
-
-	client := redis.NewClient(options)
-	db.Client = client
 	return &db, nil
 }

@@ -22,6 +22,9 @@ services:
     build:
       dockerfile: api/dockerfile
       context: ./
+    depends_on:
+      - postgres
+      - redis
     environment:
       - API_PORT=5000
       - REDIS_HOST=redis
@@ -35,6 +38,8 @@ services:
     build:
       dockerfile: worker/dockerfile
       context: ./
+    depends_on:
+      - redis
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379

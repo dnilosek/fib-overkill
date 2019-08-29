@@ -2,6 +2,8 @@ package web
 
 import (
 	"context"
+	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -89,19 +91,28 @@ func (server *Server) GetCurrentValues(context echo.Context) error {
 }
 
 func (server *Server) PostValue(context echo.Context) error {
-	idx := context.FormValue("index")
-	if v, err := strconv.Atoi(idx); v > 100 || err != nil {
-		return err
-	}
-	err := server.redisDB.HSet("values", idx, "placeholder")
+	data := make(map[string]interface{})
+	err := json.NewDecoder(context.Request().Body).Decode(&data)
 	if err != nil {
 		return err
 	}
-	server.redisDB.Client.Publish("message", idx)
+
+	idx, ok := data["index"].(string)
+	if !ok {
+		return errors.New("Index not found")
+	}
+	if v, err := strconv.Atoi(idx); v > 100 || err != nil {
+		return err
+	}
 	_, err = server.postgresDB.Client.Exec("INSERT INTO values(number) VALUES($1)", idx)
 	if err != nil {
 		return err
 	}
+	err = server.redisDB.HSet("values", idx, "placeholder")
+	if err != nil {
+		return err
+	}
+	server.redisDB.Client.Publish("message", idx)
 
 	return nil
 }
