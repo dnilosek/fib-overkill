@@ -18,3 +18,10 @@ after_success:
   - docker build -t dnilosek/fib-overkill-worker -f worker/dockerfile .
   - docker build -t dnilosek/fib-overkill-web ./web
   - docker build -t dnilosek/fib-overkill-nginx ./nginx
+
+  # Log to dockerhub and push up images
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push dnilosek/fib-overkill-web
+  - docker push dnilosek/fib-overkill-work
+  - docker push dnilosek/fib-overkill-web
+  - docker push dnilosek/fib-overkill-nginx 
