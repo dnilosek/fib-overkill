@@ -1,0 +1,6 @@
+# Only copying exe in, so minimal container
+FROM scratch
+
+# Add binary
+ADD bin/fib-api /fib-api
+CMD ["./fib-api"]
