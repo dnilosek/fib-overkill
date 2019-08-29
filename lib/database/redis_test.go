@@ -18,17 +18,6 @@ func TestOpen(t *testing.T) {
 	db, err := database.OpenRedis(mr.Addr())
 	assert.Nil(t, err)
 	assert.NotNil(t, db)
-
-	// Bad path
-	db, err = database.OpenRedis("")
-	assert.Nil(t, db)
-	assert.NotNil(t, err)
-
-	// Bad parameter
-	redisUrl += "?boogyman=exists"
-	db, err = database.OpenRedis(redisUrl)
-	assert.Nil(t, db)
-	assert.NotNil(t, err)
 }
 
 func TestClose(t *testing.T) {
