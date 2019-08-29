@@ -13,7 +13,7 @@ services:
       - '8080:80'
   web:
     build:
-      dockerfile: dockerfile.web.dev
+      dockerfile: dockerfile.dev
       context: ./web
     volumes:
       - /app/node_modules
