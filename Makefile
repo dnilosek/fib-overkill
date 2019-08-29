@@ -25,6 +25,9 @@ DOCKER_TAG	?= $(ENV)
 print-%:  
 	@echo $* = $($*)
 
+dep:
+	@go get -v -d $(GOSRC)
+
 test:
 	@go test -v -race -coverprofile $(COVERFILE) $(GOSRC)
 

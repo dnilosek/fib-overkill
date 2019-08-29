@@ -8,6 +8,6 @@ before_install:
   
 script:
   - docker run -e CI=true dnilosek/fib-overkill-web-test npm test 
-  - make test
+  - make dep && make test
 
 after_success:
