@@ -3,7 +3,7 @@ package test_test
 import (
 	"testing"
 
-	. "github.com/dnilosek/kubing/apps/visitor-count/lib/test"
+	. "github.com/dnilosek/fib-overkill/lib/test"
 	"github.com/stretchr/testify/assert"
 )
 

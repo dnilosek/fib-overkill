@@ -3,6 +3,8 @@ language: go
 services:
   - docker
 
+env: GO11MODULE=on
+
 before_install:
   - docker build -t dnilosek/fib-overkill-web-test -f ./web/dockerfile.dev ./web
   

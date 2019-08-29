@@ -4,8 +4,8 @@ import (
 	"testing"
 
 	"github.com/alicebob/miniredis"
-	"github.com/dnilosek/kubing/apps/fib-overkill/lib/database"
-	"github.com/dnilosek/kubing/apps/fib-overkill/lib/test"
+	"github.com/dnilosek/fib-overkill/lib/database"
+	"github.com/dnilosek/fib-overkill/lib/test"
 	"github.com/stretchr/testify/assert"
 )
 
