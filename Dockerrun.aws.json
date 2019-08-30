@@ -1,0 +1,36 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions":[
+    {
+      "name":"web",
+      "image": "dnilosek/fib-overkill-web",
+      "hostname": "web",
+      "essential": false
+    },
+    {
+      "name": "api",
+      "image": "dnilosek/fib-overkill-api",
+      "hostname": "api",
+      "essential": false 
+    },
+    {
+      "name": "worker",
+      "image": "dnilosek/fib-overkill-worker",
+      "hostname": "worker",
+      "essential": false
+    },
+    {
+      "name": "nginx",
+      "image": "dnilosek/fib-overkill-nginx",
+      "hostname": "nginx",
+      "essential": true,
+      "portMappings": [
+        {
+          "hostPort": 80,
+	  "containerPort": 80
+	}
+      ],
+      "links": ["web","api"]
+    }
+  ]
+}
