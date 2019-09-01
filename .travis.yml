@@ -7,7 +7,7 @@ env: GO111MODULE=on
 
 before_install:
   # Install google cli and kubectl
-  - curl https://sdk.cloud.google.com | bash > dev/null;
+  - curl https://sdk.cloud.google.com | bash > /dev/null;
   - source $HOME/google-cloud-sdk/path.bash.inc
   - gcloud components update kubectl
 
