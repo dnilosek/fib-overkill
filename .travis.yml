@@ -14,6 +14,8 @@ env:
   - CLOUDSDK_CORE_DISABLE_PROMPTS=1
   # Needed to install deps
   - GO111MODULE=on
+  # Commit SHA
+  - SHA=$(git rev-parse HEAD)
 
 before_install:
     # Install google cli and kubectl
@@ -44,6 +46,7 @@ script:
   - docker run -e CI=true dnilosek/fib-overkill-web-test npm test
   - make dep && make test
 
+# Deploy images to Dockerhub and to K8s cluster
 deploy:
   provider: script
   script: bash ./build/travis/deploy.sh
