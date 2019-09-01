@@ -1,0 +1,32 @@
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: 'david@nilosek.io'
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    http01: {}
+---
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: fib-overkill-tls
+spec:
+  secretName: fib-overkill-io
+  issuerRef:
+    name: letsencrypt-provider
+    kind: ClusterIssuer
+  commonName: fibcalc.nilosek.io
+  dnsNames:
+    - fibcalc.nilosek.io
+    - www.fibcalc.nilosek.io
+  acme:
+    config:
+      - http01:
+          ingressClass: nginx
+        domains:
+          - fibcalc.nilosek.io
+          - www.fibcalc.nilosek.io
