@@ -3,13 +3,31 @@ language: go
 services:
   - docker
 
-env: GO111MODULE=on
+cache:
+  directories:
+  # We cache the SDK so we don't have to download it again on subsequent builds.
+  - $HOME/google-cloud-sdk
+
+env:
+  global:
+  # Do not prompt for user input when using any SDK methods.
+  - CLOUDSDK_CORE_DISABLE_PROMPTS=1
+  # Needed to install deps
+  - GO111MODULE=on
 
 before_install:
-  # Install google cli and kubectl
-  - curl https://sdk.cloud.google.com | bash > /dev/null;
+    # Install google cli and kubectl
+  - if [ ! -d $HOME/google-cloud-sdk/bin ]; then
+    # The install script errors if this directory already exists,
+    # but Travis already creates it when we mark it as cached.
+    rm -rf $HOME/google-cloud-sdk;
+    # The install script is overly verbose, which sometimes causes
+    # problems on Travis, so ignore stdout.
+    curl https://sdk.cloud.google.com | bash > /dev/null;
+  fi
   - source $HOME/google-cloud-sdk/path.bash.inc
   - gcloud components update kubectl
+  - gcloud version
 
   # Authorize google cli
   - openssl aes-256-cbc -K $encrypted_0c35eebf403c_key -iv $encrypted_0c35eebf403c_iv -in build/assets/service-account.json.enc -out build/assets/service-account.json -d
