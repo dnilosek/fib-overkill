@@ -12,7 +12,7 @@ spec:
         - fibcalc.nilosek.io
       secretName: fib-overkill-io
   rules:
-    - host: fib-overkill-io
+    - host: fibcalc.nilosek.io
       http:
         paths:
           - path: /
