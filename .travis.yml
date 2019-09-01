@@ -1,35 +1,37 @@
 sudo: required
+language: go
 services:
   - docker
 
+env: GO111MODULE=on
+
 before_install:
-  # Init google cloud cli and get kubectl
-  - curl https://sdk.cloud.google.com | bash > /dev/null;
+  # Install google cli and kubectl
+  - curl https://sdk.cloud.google.com | bash > dev/null;
   - source $HOME/google-cloud-sdk/path.bash.inc
   - gcloud components update kubectl
 
-  # Gcloud Auth
+  # Authorize google cli
   - openssl aes-256-cbc -K $encrypted_0c35eebf403c_key -iv $encrypted_0c35eebf403c_iv -in build/assets/service-account.json.enc -out build/assets/service-account.json -d
-  - gcloud auth activate-service-account --key-file build/assets/service-account.json
+  - gcloud auth active-service-account --key-file service-account.json
 
-  # Gcloud config
+  # Config project settings
   - gcloud config set project fib-overkill
   - gcloud config set compute/zone us-central1-a
-  - gcloud container clusters get-credentials fib-overkill-cluster
+  - gcloud container clusters get-credentials fib-overkill-cluser
 
-  # Login to dockerhub (env var in Travis)
+  # Log into dockhub using travis env var
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-
-  # Build dev web container for testing
+  # Build dev docker image for testing
   - docker build -t dnilosek/fib-overkill-web-test -f ./web/dockerfile.dev ./web
 
+script:
   # Run tests
-  script:
   - docker run -e CI=true dnilosek/fib-overkill-web-test npm test
   - make dep && make test
 
-  deploy:
-    provider: script
-    script: bash ./build/travis/deploy.sh
-    on:
-      branch: master
+deploy:
+  provider: script
+  script: bash ./build/travis/deploy.sh
+  on:
+    branch: master
