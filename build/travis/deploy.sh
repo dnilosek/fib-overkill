@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # Build binaries and images
+GO111MODULE=on
 make build
 docker build -t dnilosek/fib-overkill-api -f api/dockerfile .
 docker build -t dnilosek/fib-overkill-worker -f worker/dockerfile .
