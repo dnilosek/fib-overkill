@@ -32,7 +32,7 @@ before_install:
   # Config project settings
   - gcloud config set project fib-overkill
   - gcloud config set compute/zone us-central1-a
-  - gcloud container clusters get-credentials fib-overkill-cluser
+  - gcloud container clusters get-credentials fib-overkill-cluster
 
   # Log into dockhub using travis env var
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
