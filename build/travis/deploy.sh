@@ -19,4 +19,10 @@ docker push dnilosek/fib-overkill-web:$SHA
 # Apply k8s configs
 kubectl version
 kubectl apply -f build/k8s
-kubectl rollout restart
+
+# Super annoying have to force deployments to use new image
+# this is supposidly fixed in kubectl 1.15 with rollout restart
+# (https://github.com/gpii-ops/exekube/pull/59)
+kubectl set image deployments/api-deployment api=dnilosek/fib-overkill-api:$SHA
+kubectl set image deployments/web-deployment api=dnilosek/fib-overkill-web:$SHA
+kubectl set image deployments/worker-deployment api=dnilosek/fib-overkill-worker:$SHA
