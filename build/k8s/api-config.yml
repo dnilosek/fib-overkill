@@ -21,6 +21,8 @@ spec:
           env:
             - name: API_PATH
               value: '/api/'
+            - name: API_PORT
+              value: '5000'
             - name: REDIS_HOST
               value: redis-clusterip-service
             - name: REDIS_PORT

@@ -12,7 +12,7 @@ spec:
             backend:
               serviceName:  web-clusterip-service
               servicePort: 3000
-          - path: /api/
+          - path: /api
             backend:
               serviceName: api-clusterip-service
               servicePort: 5000
