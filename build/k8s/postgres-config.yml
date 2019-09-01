@@ -1,0 +1,56 @@
+# Postgres deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: postgres
+  template:
+    metadata:
+      labels:
+        component: postgres
+    spec:
+      volumes:
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: postgres-pvc
+      containers:
+        - name: postgres
+          image: postgres
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: postgres-storage
+              # Default storage location for postgres
+              mountPath: /var/lib/postgresql/data
+              # Subpath in persistent volume needed for postgres
+              # to write to volume (PGDATA in https://hub.docker.com/_/postgres)
+              subPath: postgres
+---
+# Postgres ClusterIP Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-clusterip-service
+spec:
+  type: ClusterIP
+  selector:
+    component: postgres
+  ports:
+    - port: 5432
+      targetPort: 5432
+---
+# Persistant volume claim
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
