@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"path"
 	"strconv"
 
 	"github.com/dnilosek/fib-overkill/lib/database"
@@ -31,10 +32,10 @@ func NewServer(cfg *Config, redisDB *database.RedisDB, postgresDB *database.Post
 	}
 
 	// Create endpoints
-	server.router.GET("/", server.Index)
-	server.router.GET("/values/all", server.GetAllValues)
-	server.router.GET("/values/current", server.GetCurrentValues)
-	server.router.POST("/values", server.PostValue)
+	server.router.GET(cfg.APIPath, server.Index)
+	server.router.GET(path.Join(cfg.APIPath, "values/all"), server.GetAllValues)
+	server.router.GET(path.Join(cfg.APIPath, "values/current"), server.GetCurrentValues)
+	server.router.POST(path.Join(cfg.APIPath, "values"), server.PostValue)
 
 	// Clear startup info printing
 	server.router.HideBanner = true

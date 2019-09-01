@@ -19,6 +19,8 @@ spec:
           ports:
             - containerPort: 5000
           env:
+            - name: API_PATH
+              value: '/api/'
             - name: REDIS_HOST
               value: redis-clusterip-service
             - name: REDIS_PORT
