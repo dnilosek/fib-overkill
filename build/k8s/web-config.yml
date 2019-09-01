@@ -1,0 +1,34 @@
+
+# Frontend web deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      component: web
+  template:
+    metadata:
+      labels:
+        component: web
+    spec:
+      containers:
+        - name: web
+          image: dnilosek/fib-overkill-web
+          ports:
+            - containerPort: 3000
+---
+# Web clusterip Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-clusterip-service
+spec:
+  type: ClusterIP
+  selector:
+    component: web
+  ports:
+    - port: 3000
+      targetPort: 3000

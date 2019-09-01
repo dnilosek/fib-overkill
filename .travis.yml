@@ -1,27 +1,35 @@
 sudo: required
-language: go
 services:
   - docker
 
-env: GO111MODULE=on
-
 before_install:
+  # Init google cloud cli and get kubectl
+  - curl https://sdk.cloud.google.com | bash > /dev/null;
+  - source $HOME/google-cloud-sdk/path.bash.inc
+  - gcloud components update kubectl
+
+  # Gcloud Auth
+  - openssl aes-256-cbc -K $encrypted_0c35eebf403c_key -iv $encrypted_0c35eebf403c_iv -in build/assets/service-account.json.enc -out build/assets/service-account.json -d
+  - gcloud auth activate-service-account --key-file build/assets/service-account.json
+
+  # Gcloud config
+  - gcloud config set project fib-overkill
+  - gcloud config set compute/zone us-central1-a
+  - gcloud container clusters get-credentials fib-overkill-cluster
+
+  # Login to dockerhub (env var in Travis)
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+  # Build dev web container for testing
   - docker build -t dnilosek/fib-overkill-web-test -f ./web/dockerfile.dev ./web
-  
-script:
-  - docker run -e CI=true dnilosek/fib-overkill-web-test npm test 
+
+  # Run tests
+  script:
+  - docker run -e CI=true dnilosek/fib-overkill-web-test npm test
   - make dep && make test
 
-after_success:
-  - make build
-  - docker build -t dnilosek/fib-overkill-api -f api/dockerfile .
-  - docker build -t dnilosek/fib-overkill-worker -f worker/dockerfile .
-  - docker build -t dnilosek/fib-overkill-web ./web
-  - docker build -t dnilosek/fib-overkill-nginx ./nginx
-
-  # Log to dockerhub and push up images
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-  - docker push dnilosek/fib-overkill-api
-  - docker push dnilosek/fib-overkill-worker
-  - docker push dnilosek/fib-overkill-web
-  - docker push dnilosek/fib-overkill-nginx 
+  deploy:
+    provider: script
+    script: bash ./build/travis/deploy.sh
+    on:
+      branch: master
