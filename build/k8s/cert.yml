@@ -17,16 +17,14 @@ metadata:
 spec:
   secretName: fib-overkill-io
   issuerRef:
-    name: letsencrypt-provider
+    name: letsencrypt-prod
     kind: ClusterIssuer
   commonName: fibcalc.nilosek.io
   dnsNames:
     - fibcalc.nilosek.io
-    - www.fibcalc.nilosek.io
   acme:
     config:
       - http01:
           ingressClass: nginx
         domains:
           - fibcalc.nilosek.io
-          - www.fibcalc.nilosek.io
