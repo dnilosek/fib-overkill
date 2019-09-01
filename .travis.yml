@@ -17,14 +17,10 @@ env:
 
 before_install:
     # Install google cli and kubectl
-  - if [ ! -d $HOME/google-cloud-sdk/bin ]; then
+
     # The install script errors if this directory already exists,
     # but Travis already creates it when we mark it as cached.
-    rm -rf $HOME/google-cloud-sdk;
-    # The install script is overly verbose, which sometimes causes
-    # problems on Travis, so ignore stdout.
-    curl https://sdk.cloud.google.com | bash > /dev/null;
-  fi
+  - if [ ! -d $HOME/google-cloud-sdk/bin ]; then rm -rf $HOME/google-cloud-sdk; curl https://sdk.cloud.google.com | bash > /dev/null; fi
   - source $HOME/google-cloud-sdk/path.bash.inc
   - gcloud components update kubectl
   - gcloud version
