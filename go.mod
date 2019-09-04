@@ -62,4 +62,5 @@ require (
 	google.golang.org/api v0.9.0 // indirect
 	google.golang.org/genproto v0.0.0-20190819201941-24fa4b261c55 // indirect
 	gopkg.in/yaml.v1 v1.0.0-20140924161607-9f9df34309c0 // indirect
+	sigs.k8s.io/kustomize v2.0.3+incompatible // indirect
 )
