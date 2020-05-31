@@ -22,9 +22,6 @@ DOCKER_TAG	?= $(ENV)
 
 .DEFAULT_GOAL=test
 
-print-%:  
-	@echo $* = $($*)
-
 dep:
 	@go get -v -d $(GOSRC)
 
