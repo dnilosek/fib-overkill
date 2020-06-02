@@ -70,6 +70,19 @@ docker-build-worker:
 
 docker-build: docker-build-web docker-build-api docker-build-worker
 
+deploy-dev:
+	kubectl apply -k build/k8s/dev
+
+destroy-dev:
+	kubectl delete -k build/k8s/dev
+
+build-and-deploy: build docker-build deploy-dev
+
+destroy: clean destroy-dev clean-images
+
+clean-images:
+	@docker rmi $(WEBIMAGE) $(APIIMAGE) $(WORKERIMAGE)
+
 clean:
 	@rm -rf $(BINPATH)
 
