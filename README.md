@@ -32,3 +32,16 @@ To build and deploy everything to minikube:
 ```bash
 make build-and-deploy
 ```
+If you want to remove everything (K8s deploy, docker images, and binaries)
+```bash
+make destroy
+```
+### Running
+The  UI and API service will be available via the minikube IP, this can be found using:
+```bash
+minikube ip
+```
+You may get a security warning trying to access the site as there is no SSL cert. You should see something that looks like this:
+
+![UI](assets/ui.png?raw=true "UI")
+
