@@ -1,3 +1,4 @@
 *.swp
 *.cover*
 *bin*
+*/node_modules/*

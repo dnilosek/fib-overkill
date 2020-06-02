@@ -15,7 +15,8 @@ spec:
     spec:
       containers:
         - name: api
-          image: dnilosek/fib-overkill-api
+          image: fib-overkill-api
+          imagePullPolicy: Never
           ports:
             - containerPort: 5000
           env:
@@ -41,7 +42,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: pgpassword
-                  key: PGPASSWORD
+                  key: POSTGRES_PASSWORD
 ---
 # Cluster IP service for API
 apiVersion: v1
