@@ -1,5 +1,14 @@
 # Fibonacci-Overkill
+
 This is a wildly over-egineering fibonacci calculator, create primarliy for testing a complicated multi-service deploy using kubernetes. 
+
+- [Fibonacci-Overkill](#fibonacci-overkill)
+  * [Design](#design)
+  * [Build](#build)
+    + [Requirements](#requirements)
+    + [Pre-build requirements](#pre-build-requirements)
+    + [Building](#building)
+    + [Running](#running)
 
 ## Design
 ![Design Diagram](assets/diag.jpg?raw=true "Diagram")
