@@ -7,10 +7,17 @@ BINPATH=bin
 WORKERPATH=worker/cmd
 WORKERTARGET=worker
 WORKERBIN=$(patsubst %, ${BINPATH}/%, $(WORKERTARGET))
+WORKERDOCKER=build/docker/dockerfile.worker
+WORKERIMAGE=fib-overkill-worker
 
 APIPATH=api/cmd
 APITARGET=fib-api
 APIBIN=$(patsubst %, ${BINPATH}/%, $(APITARGET))
+APIDOCKER=build/docker/dockerfile.api
+APIIMAGE=fib-overkill-api
+
+WEBDOCKER=build/docker/dockerfile.web
+WEBIMAGE=fib-overkill-web
 
 BINARIES=$(WORKERBIN) $(APIBIN)
 
@@ -51,6 +58,17 @@ $(WORKERBIN): $(WORKERPATH)/worker.go
 $(APIBIN): $(APIPATH)/fib-api.go
 	@CGO_ENABLED=0 GOOS=linux go build -a --installsuffix cgo \
 		-o $@ $(APIPATH)/fib-api.go
+
+docker-build-web:
+	docker build -t $(WEBIMAGE) -f $(WEBDOCKER) .
+
+docker-build-api:
+	docker build -t $(APIIMAGE) -f $(APIDOCKER) .
+
+docker-build-worker:
+	docker build -t $(WORKERIMAGE) -f $(WORKERDOCKER) .
+
+docker-build: docker-build-web docker-build-api docker-build-worker
 
 clean:
 	@rm -rf $(BINPATH)

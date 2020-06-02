@@ -1,41 +1,3 @@
-# Postgres deployment
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: postgres-deployment
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      component: postgres
-  template:
-    metadata:
-      labels:
-        component: postgres
-    spec:
-      volumes:
-        - name: postgres-storage
-          persistentVolumeClaim:
-            claimName: postgres-pvc
-      containers:
-        - name: postgres
-          image: postgres
-          env:
-            - name: PGPASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: pgpassword
-                  key: PGPASSWORD
-          ports:
-            - containerPort: 5432
-          volumeMounts:
-            - name: postgres-storage
-              # Default storage location for postgres
-              mountPath: /var/lib/postgresql/data
-              # Subpath in persistent volume needed for postgres
-              # to write to volume (PGDATA in https://hub.docker.com/_/postgres)
-              subPath: postgres
----
 # Postgres ClusterIP Service
 apiVersion: v1
 kind: Service
@@ -59,4 +21,51 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 2Gi
+      storage: 1Gi
+---
+# Password (DONT USE THIS IN PROD)
+apiVersion: v1
+kind: Secret
+metadata:
+   name: pgpassword
+type: Opaque
+data:
+   POSTGRES_PASSWORD: postgres
+---
+# Postgres deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: postgres
+  template:
+    metadata:
+      labels:
+        component: postgres
+    spec:
+      volumes:
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: postgres-pvc
+      containers:
+        - name: postgres
+          image: postgres
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pgpassword
+                  key: POSTGRES_PASSWORD
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: postgres-storage
+              # Default storage location for postgres
+              mountPath: /var/lib/postgresql/data
+              # Subpath in persistent volume needed for postgres
+              # to write to volume (PGDATA in https://hub.docker.com/_/postgres)
+              subPath: postgres
