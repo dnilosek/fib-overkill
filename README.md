@@ -1,6 +1,6 @@
 # Fibonacci-Overkill
 
-This is a wildly over-egineering fibonacci calculator, create primarliy for testing a complicated multi-service deploy using kubernetes. 
+This is a wildly over-egineered fibonacci calculator, created primarliy for testing a multi-service deploy using kubernetes. 
 
 - [Design](#design)
 - [Build](#build)
