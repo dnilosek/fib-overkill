@@ -2,5 +2,5 @@
 FROM scratch
 
 # Add binary
-ADD bin/worker /worker
+ADD ./bin/worker /worker
 CMD ["./worker"]

@@ -16,7 +16,8 @@ spec:
     spec:
       containers:
         - name: web
-          image: dnilosek/fib-overkill-web
+          image: fib-overkill-web
+          imagePullPolicy: Never
           ports:
             - containerPort: 3000
 ---
