@@ -64,7 +64,7 @@ This requires Helm to be installed to set up
 make setup-logging # It will take 3-5 minutes for everything to spin up
 ```
 
-This will install elasticsearch and kibana for log searching and display, as well as filebeat for log aggregation and metricbeatfor metrics gathering. You can view the data by running the following
+This will install [Elasticsearch](https://www.elastic.co/) and [Kibana](https://www.elastic.co/kibana) for log searching and display, as well as [Filebeat](https://www.elastic.co/beats/filebeat) for log aggregation and [Metricbeat](https://www.elastic.co/beats/metricbeat) for metrics gathering. You can view the data by running the following
 
 ```bash
 make start-logging
