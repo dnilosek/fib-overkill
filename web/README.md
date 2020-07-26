@@ -5,8 +5,8 @@
  This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app)
 
 ## Dvelopment Dependencies
-    * NodeJS (v10)
-    * npm
+  *NodeJS (v10)
+  *npm
 
 ## Development tasks
 ```bash
