@@ -93,12 +93,14 @@ setup-logging:
 	@rm ./values.yaml
 	@helm install --name-template kibana elastic/kibana
 	@helm install --name-template filebeat elastic/filebeat
+	@helm install --name-template metricbeat elastic/metricbeat
 
 remove-logging:
 	@helm repo add elastic https://helm.elastic.co
 	@helm uninstall elasticsearch
 	@helm uninstall kibana
 	@helm uninstall filebeat
+	@helm uninstall metricbeat
 
 start-logging:
 	@kubectl port-forward deployment/kibana-kibana 5601
