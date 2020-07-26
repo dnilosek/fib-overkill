@@ -64,10 +64,16 @@ This requires Helm to be installed to set up
 make setup-logging # It will take 3-5 minutes for everything to spin up
 ```
 
-This will install elasticsearch and kibana for log searching and display, as well as filebeat for log aggregation. You can view the log stream by running the following
+This will install elasticsearch and kibana for log searching and display, as well as filebeat for log aggregation and metricbeatfor metrics gathering. You can view the data by running the following
 
 ```bash
 make start-logging
 ```
 
-Then nagivating to [http://localhost:5601/app/logs](http://localhost:5601/app/logs) in your browser
+The log stream can be found by navigating to [http://localhost:5601/app/logs](http://localhost:5601/app/logs) in your browser.
+
+
+If you want to remove the logging stack run:
+```bash
+make remove-logging
+```
