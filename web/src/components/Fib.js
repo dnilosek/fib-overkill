@@ -1,4 +1,10 @@
 import React, { Component } from 'react';
+import Jubmotron from 'react-bootstrap/Jumbotron'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
 import axios from 'axios';
 
 class Fib extends Component {
@@ -57,20 +63,29 @@ class Fib extends Component {
   render() {
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
-          <label>Enter your index:</label>
-          <input
-            value={this.state.index}
-            onChange={event => this.setState({ index: event.target.value })}
-          />
-          <button>Submit</button>
-        </form>
-
-        <h3>Indexes I have seen:</h3>
-        {this.renderSeenIndexes()}
-
-        <h3>Calculated Values:</h3>
-        {this.renderValues()}
+        <Jubmotron>
+          <Form onSubmit={this.handleSubmit} className="form-inline justify-content-center">
+              <Form.Label className="my-1 mr-2">Enter your index: </Form.Label>
+              <Form.Control
+                className="my-1 mr-sm-2"
+                value={this.state.index}
+                onChange={event => this.setState({ index: event.target.value })}
+              />
+              <Button className="my-1">Submit</Button>
+          </Form>
+        </Jubmotron>
+        <Container>
+          <Row>
+            <Col>
+              <h1>Indexes I have seen:</h1>
+              {this.renderSeenIndexes()}
+            </Col>
+            <Col>
+              <h1>Calculated Values:</h1>
+              {this.renderValues()}
+            </Col>
+          </Row>
+        </Container>
       </div>
     );
   }
