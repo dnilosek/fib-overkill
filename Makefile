@@ -86,7 +86,23 @@ clean-images:
 clean:
 	@rm -rf $(BINPATH)
 
-compose: build
-	 docker-compose build
+setup-logging:
+	@helm repo add elastic https://helm.elastic.co
+	@curl -O https://raw.githubusercontent.com/elastic/helm-charts/master/elasticsearch/examples/minikube/values.yaml
+	@helm install --name-template elasticsearch elastic/elasticsearch -f ./values.yaml 
+	@rm ./values.yaml
+	@helm install --name-template kibana elastic/kibana
+	@helm install --name-template filebeat elastic/filebeat
+	@helm install --name-template metricbeat elastic/metricbeat
 
-.PHONY: dep test vet cover run-worker run-api build clean compose
+remove-logging:
+	@helm repo add elastic https://helm.elastic.co
+	@helm uninstall elasticsearch
+	@helm uninstall kibana
+	@helm uninstall filebeat
+	@helm uninstall metricbeat
+
+start-logging:
+	@kubectl port-forward deployment/kibana-kibana 5601
+
+.PHONY: dep test vet cover run-worker run-api build docker-build-web docker-build-api docker-build-worker docker-build deploy-dev destroy-dev build-and-deploy destroy clean-images clean setup-logging start-logging

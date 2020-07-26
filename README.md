@@ -8,6 +8,7 @@ This is a wildly over-egineered fibonacci calculator, created primarliy for test
   * [Pre-build requirements](#pre-build-requirements)
   * [Building](#building)
   * [Running](#running)
+  * [Logging](#enable-logging-via-elk)
 
 ## Design
 ![Design Diagram](assets/diag.jpg?raw=true "Diagram")
@@ -19,6 +20,7 @@ The system is deployed for local sandboxing with [Kubernetes](https://kubernetes
 ## Build
 ### Requirements
 - Minikube 1.11.0
+- Helm 3.0.0 (optional)
 - Golang 1.12.0
 - NPM 5.8.0
 
@@ -54,3 +56,24 @@ You may get a security warning trying to access the site as there is no SSL cert
 
 ![UI](assets/ui.png?raw=true "UI")
 
+
+### Enable Logging via ELK 
+This requires Helm to be installed to set up
+
+```bash
+make setup-logging # It will take 3-5 minutes for everything to spin up
+```
+
+This will install elasticsearch and kibana for log searching and display, as well as filebeat for log aggregation and metricbeatfor metrics gathering. You can view the data by running the following
+
+```bash
+make start-logging
+```
+
+The log stream can be found by navigating to [http://localhost:5601/app/logs](http://localhost:5601/app/logs) in your browser.
+
+
+If you want to remove the logging stack run:
+```bash
+make remove-logging
+```
