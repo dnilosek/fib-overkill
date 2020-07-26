@@ -26,6 +26,7 @@ The system is deployed for local sandboxing with [Kubernetes](https://kubernetes
 Just a couple things to ensure we can use minikube as a sanbox environment. First we will be using the internal docker repository to store the service images, so we have to connect to the minikube docker environment (unfortunetly this needs to be done every time you open up a shell):
 
 ```bash
+minikube start
 eval $(minikube docker-env)
 ```
 
