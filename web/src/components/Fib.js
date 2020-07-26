@@ -71,7 +71,7 @@ class Fib extends Component {
                 value={this.state.index}
                 onChange={event => this.setState({ index: event.target.value })}
               />
-              <Button className="my-1">Submit</Button>
+              <Button className="my-1" type="submit">Submit</Button>
           </Form>
         </Jubmotron>
         <Container>
